@@ -27,6 +27,10 @@ struct BudgetDetailScreen: View {
 		}
 	}
 	
+	private var remaining: Double {
+		budget.limit - total
+	}
+	
 	var body: some View {
 		Form {
 			Section("New Expense") {
@@ -47,7 +51,7 @@ struct BudgetDetailScreen: View {
 			
 			Section("Expenses") {
 				List {
-					Text(total, format: .currency(code: Locale.currencyCode))
+					
 					
 					ForEach(expenses) { expense in
 						HStack {
@@ -56,6 +60,22 @@ struct BudgetDetailScreen: View {
 							Text(expense.amount, format: .currency(code: Locale.currencyCode))
 						}
 					}
+					
+					VStack(alignment: .leading) {
+						HStack{
+							Text("Total")
+							Spacer()
+							Text(total, format: .currency(code: Locale.currencyCode))
+								
+						}
+						HStack {
+							Text("Remaining")
+							Spacer()
+							Text(remaining, format: .currency(code: Locale.currencyCode))
+								.foregroundStyle(remaining < 0 ? .red : .green)
+						}
+					}
+					.bold()
 				}
 			}
 		}
