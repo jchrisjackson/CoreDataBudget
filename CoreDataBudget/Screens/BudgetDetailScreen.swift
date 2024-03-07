@@ -32,6 +32,12 @@ struct BudgetDetailScreen: View {
 	}
 	
 	var body: some View {
+		VStack {
+			Text(budget.limit, format: .currency(code: Locale.currencyCode))
+				.font(.headline)
+				.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+				.padding(.horizontal, 20)
+		}
 		Form {
 			Section("New Expense") {
 				TextField("Title", text: $title)
@@ -51,15 +57,10 @@ struct BudgetDetailScreen: View {
 			
 			Section("Expenses") {
 				List {
-					
-					
 					ForEach(expenses) { expense in
-						HStack {
-							Text(expense.title ?? "")
-							Spacer()
-							Text(expense.amount, format: .currency(code: Locale.currencyCode))
-						}
+						ExpenseCellView(expense: expense)
 					}
+					.onDelete(perform: deleteExpense)
 					
 					VStack(alignment: .leading) {
 						HStack{
@@ -103,10 +104,24 @@ struct BudgetDetailScreen: View {
 			print(error.localizedDescription)
 		}
 	}
+	
+	private func deleteExpense(_ indexSet: IndexSet) {
+		indexSet.forEach { index in
+			let expense = expenses[index]
+			context.delete(expense)
+		}
+		
+		do {
+			try context.save()
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
 }
 
-struct BudgetDetailScreenContainer: View {
+struct BudgetDetailScreenPreview: View {
 	@FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
+	
 	var body: some View {
 		BudgetDetailScreen(budget: budgets.first(where: { $0.title == "Groceries" })!)
 	}
@@ -114,7 +129,9 @@ struct BudgetDetailScreenContainer: View {
 
 #Preview {
 	NavigationStack {
-		BudgetDetailScreenContainer()
+		BudgetDetailScreenPreview()
 			.environment(\.managedObjectContext, CoreDataProvider.preview.context)
 	}
 }
+
+
