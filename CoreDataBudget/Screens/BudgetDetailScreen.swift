@@ -67,8 +67,8 @@ struct BudgetDetailScreen: View {
 							Text("Total")
 							Spacer()
 							Text(total, format: .currency(code: Locale.currencyCode))
-								
 						}
+						
 						HStack {
 							Text("Remaining")
 							Spacer()

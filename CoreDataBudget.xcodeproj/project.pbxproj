@@ -18,6 +18,7 @@
 		774D5F422B880B9D00D4CAE0 /* AddBudgetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */; };
 		774D5F452B880D7900D4CAE0 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F442B880D7900D4CAE0 /* String+Ext.swift */; };
 		774D5F472B8965D900D4CAE0 /* Budget+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */; };
+		77596C932B9BCCC900CC4284 /* TagsSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77596C922B9BCCC900CC4284 /* TagsSeeder.swift */; };
 		77D4CEB62B97B9C90077189D /* BudgetDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetScreen.swift; sourceTree = "<group>"; };
 		774D5F442B880D7900D4CAE0 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+Ext.swift"; sourceTree = "<group>"; };
+		77596C922B9BCCC900CC4284 /* TagsSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSeeder.swift; sourceTree = "<group>"; };
 		77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetDetailScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				774D5F2A2B8801A600D4CAE0 /* CoreDataBudgetApp.swift */,
+				77596C912B9BB4AA00CC4284 /* Seeders */,
 				774D5F3E2B8809DA00D4CAE0 /* Screens */,
 				774D5F382B8801DC00D4CAE0 /* Providers */,
 				774D5F432B880D3D00D4CAE0 /* Extensions */,
@@ -121,6 +124,14 @@
 				77116EFA2B990203003996A1 /* Locale+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		77596C912B9BB4AA00CC4284 /* Seeders */ = {
+			isa = PBXGroup;
+			children = (
+				77596C922B9BCCC900CC4284 /* TagsSeeder.swift */,
+			);
+			path = Seeders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +210,7 @@
 				771D80A42B9A0A36002C18E1 /* ExpenseCellView.swift in Sources */,
 				774D5F452B880D7900D4CAE0 /* String+Ext.swift in Sources */,
 				774D5F472B8965D900D4CAE0 /* Budget+Ext.swift in Sources */,
+				77596C932B9BCCC900CC4284 /* TagsSeeder.swift in Sources */,
 				774D5F402B8809FC00D4CAE0 /* BudgetListScreen.swift in Sources */,
 				774D5F3D2B88090B00D4CAE0 /* BudgetModel.xcdatamodeld in Sources */,
 				774D5F2B2B8801A600D4CAE0 /* CoreDataBudgetApp.swift in Sources */,
