@@ -20,6 +20,7 @@
 		774D5F472B8965D900D4CAE0 /* Budget+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */; };
 		77596C932B9BCCC900CC4284 /* TagsSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77596C922B9BCCC900CC4284 /* TagsSeeder.swift */; };
 		77596C952B9F6C6700CC4284 /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77596C942B9F6C6700CC4284 /* TagsView.swift */; };
+		77596C972BA2527400CC4284 /* FilterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77596C962BA2527400CC4284 /* FilterScreen.swift */; };
 		77D4CEB62B97B9C90077189D /* BudgetDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+Ext.swift"; sourceTree = "<group>"; };
 		77596C922B9BCCC900CC4284 /* TagsSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSeeder.swift; sourceTree = "<group>"; };
 		77596C942B9F6C6700CC4284 /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
+		77596C962BA2527400CC4284 /* FilterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreen.swift; sourceTree = "<group>"; };
 		77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetDetailScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 				774D5F3F2B8809FC00D4CAE0 /* BudgetListScreen.swift */,
 				774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */,
 				77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */,
+				77596C962BA2527400CC4284 /* FilterScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				77116EFB2B990203003996A1 /* Locale+Ext.swift in Sources */,
 				771D80A42B9A0A36002C18E1 /* ExpenseCellView.swift in Sources */,
 				774D5F452B880D7900D4CAE0 /* String+Ext.swift in Sources */,
+				77596C972BA2527400CC4284 /* FilterScreen.swift in Sources */,
 				774D5F472B8965D900D4CAE0 /* Budget+Ext.swift in Sources */,
 				77596C932B9BCCC900CC4284 /* TagsSeeder.swift in Sources */,
 				774D5F402B8809FC00D4CAE0 /* BudgetListScreen.swift in Sources */,
