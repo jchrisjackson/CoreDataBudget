@@ -12,13 +12,43 @@ struct FilterScreen: View {
 	@FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
 	@State private var selectedTags: Set<Tag> = []
 	@State private var filteredExpenses: [Expense] = []
+	@State private var startPrice: Double?
+	@State private var endPrice: Double?
+	@State private var title: String = ""
+	@State private var startDate = Date()
+	@State private var endDate = Date()
 	
 	var body: some View {
-		VStack {
-			TagsView(selectedTags: $selectedTags)
-				.onChange(of: selectedTags, filterTags)
+		List {
+			Section("Filter by Tags") {
+				TagsView(selectedTags: $selectedTags)
+					.onChange(of: selectedTags, filterTags)
+			}
 			
-			List(filteredExpenses) { expense in
+			Section("Filter by Price") {
+				TextField("Start price", value: $startPrice, format: .number)
+				
+				TextField("End price", value: $endPrice, format: .number)
+				
+				Button("Search") {
+					filterByPrice()
+				}
+			}
+			
+			Section("Filter by Title") {
+				TextField("Title", text: $title)
+				
+				Button("Search") {
+					filterByTitle()
+				}
+			}
+			
+			Section("Filter by Date") {
+				DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+				DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+			}
+			
+			ForEach (filteredExpenses) { expense in
 				ExpenseCellView(expense: expense)
 			}
 			
@@ -47,6 +77,42 @@ struct FilterScreen: View {
 		let selectedTagNames = selectedTags.map { $0.name }
 		let request = Expense.fetchRequest()
 		request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
+		
+		do {
+			filteredExpenses = try context.fetch(request)
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+	
+	private func filterByPrice() {
+		guard let startPrice = startPrice,
+					let endPrice = endPrice else { return }
+		
+		let request = Expense.fetchRequest()
+		request.predicate = NSPredicate(format: "amount >= %@ AND amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
+		
+		do {
+			filteredExpenses = try context.fetch(request)
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+	
+	private func filterByTitle() {
+		let request = Expense.fetchRequest()
+		request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
+		
+		do {
+			filteredExpenses = try context.fetch(request)
+		} catch {
+			print(error.localizedDescription)
+		}
+	}
+	
+	private func filterByDate() {
+		let request = Expense.fetchRequest()
+		request.predicate = NSPredicate(format: "dateCreated >= %@ AND dateCreated <= %@", startDate as NSDate, endDate as NSDate)
 		
 		do {
 			filteredExpenses = try context.fetch(request)
