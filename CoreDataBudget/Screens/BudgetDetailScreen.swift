@@ -65,16 +65,16 @@ struct BudgetDetailScreen: View {
 					
 					VStack(alignment: .leading) {
 						HStack{
-							Text("Total")
+							Text("Spent")
 							Spacer()
-							Text(total, format: .currency(code: Locale.currencyCode))
+							Text(budget.spent, format: .currency(code: Locale.currencyCode))
 						}
 						
 						HStack {
 							Text("Remaining")
 							Spacer()
-							Text(remaining, format: .currency(code: Locale.currencyCode))
-								.foregroundStyle(remaining < 0 ? .red : .green)
+							Text(budget.remaining, format: .currency(code: Locale.currencyCode))
+								.foregroundStyle(budget.remaining < 0 ? .red : .green)
 						}
 					}
 					.bold()

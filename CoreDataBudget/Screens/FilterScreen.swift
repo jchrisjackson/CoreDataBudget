@@ -17,12 +17,102 @@ struct FilterScreen: View {
 	@State private var title: String = ""
 	@State private var startDate = Date()
 	@State private var endDate = Date()
+	@State private var selectedSortOption: SortOptions? = nil
+	@State private var selectedSortDirection: SortDirection = .ascending
+	@State private var selectedFilterOption: FilterOption? = nil
+	
+	private enum SortOptions: String, CaseIterable, Identifiable {
+		case title = "title"
+		case date = "dateCreated"
+		
+		var id: SortOptions {
+			return self
+		}
+		
+		var title: String {
+			switch self {
+				case .title:
+					return "Title"
+				case .date:
+					return "Date"
+				}
+		}
+		
+		var key: String {
+			rawValue
+		}
+	}
+	
+	private enum SortDirection: CaseIterable, Identifiable {
+		case ascending, descending
+		
+		var id: SortDirection {
+			return self
+		}
+		
+		var title: String {
+			switch self {
+				case .ascending:
+					return "Ascending"
+				case .descending:
+					return "Descending"
+			}
+		}
+	}
+	
+	private enum FilterOption: Identifiable, Equatable {
+		case none
+		case byTags(Set<Tag>)
+		case byPriceRange(minPrice: Double, maxPrice: Double)
+		case byTitle(String)
+		case byDate(startDate: Date, endDate: Date)
+		
+		var id: String {
+			switch self {
+				case .byTags:
+					return "tags"
+				case .byPriceRange:
+					return "priceRange"
+				case .byTitle:
+					return "title"
+				case .byDate:
+					return "date"
+				case .none:
+					return "none"
+			}
+		}
+	}
 	
 	var body: some View {
 		List {
+			Section("Sort") {
+				Picker("Sort Options", selection: $selectedSortOption) {
+					Text("Select")
+						.tag(Optional<SortOptions>(nil))
+					
+					ForEach(SortOptions.allCases) { option in
+						Text(option.title)
+							.tag(Optional(option))
+					}
+				}
+								
+				Picker("Sort Direction", selection: $selectedSortDirection) {
+					ForEach(SortDirection.allCases) { option in
+						Text(option.title)
+							.tag(option)
+					}
+				}
+				
+				Button("Sort") {
+					performSort()
+				}
+			}
+			
 			Section("Filter by Tags") {
 				TagsView(selectedTags: $selectedTags)
-					.onChange(of: selectedTags, filterTags)
+					.onChange(of: selectedTags) {
+						selectedFilterOption = .byTags(selectedTags)
+					}
 			}
 			
 			Section("Filter by Price") {
@@ -31,7 +121,10 @@ struct FilterScreen: View {
 				TextField("End price", value: $endPrice, format: .number)
 				
 				Button("Search") {
-					filterByPrice()
+					guard let startPrice = startPrice,
+								let endPrice = endPrice else { return }
+					
+					selectedFilterOption = .byPriceRange(minPrice: startPrice, maxPrice: endPrice)
 				}
 			}
 			
@@ -39,27 +132,31 @@ struct FilterScreen: View {
 				TextField("Title", text: $title)
 				
 				Button("Search") {
-					filterByTitle()
+					selectedFilterOption = .byTitle(title)
 				}
 			}
 			
 			Section("Filter by Date") {
 				DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
 				DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+				
+				Button("Search") {
+					selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
+				}
 			}
 			
-			ForEach (filteredExpenses) { expense in
-				ExpenseCellView(expense: expense)
+			Section("Expenses") {
+				ForEach(filteredExpenses) { expense in
+					ExpenseCellView(expense: expense)
+				}
 			}
-			
-			Spacer()
-			
+
+			// show all expenses
 			HStack {
 				Spacer()
 				
 				Button("Show All") {
-					selectedTags = []
-					filteredExpenses = expenses.map { $0 }
+					selectedFilterOption = FilterOption.none
 				}
 				
 				Spacer()
@@ -67,16 +164,14 @@ struct FilterScreen: View {
 		}
 		.padding()
 		.navigationTitle("Filter")
+		.onChange(of: selectedFilterOption, performFilter)
 	}
 	
-	private func filterTags() {
-		if selectedTags.isEmpty {
-			return
-		}
+	private func performSort() {
+		guard let sortOption = selectedSortOption else { return }
 		
-		let selectedTagNames = selectedTags.map { $0.name }
 		let request = Expense.fetchRequest()
-		request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
+		request.sortDescriptors = [NSSortDescriptor(key: sortOption.key, ascending: selectedSortDirection == .ascending ? true : false)]
 		
 		do {
 			filteredExpenses = try context.fetch(request)
@@ -85,34 +180,24 @@ struct FilterScreen: View {
 		}
 	}
 	
-	private func filterByPrice() {
-		guard let startPrice = startPrice,
-					let endPrice = endPrice else { return }
+	private func performFilter() {
+		guard let selectedFilterOption else { return }
 		
 		let request = Expense.fetchRequest()
-		request.predicate = NSPredicate(format: "amount >= %@ AND amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
 		
-		do {
-			filteredExpenses = try context.fetch(request)
-		} catch {
-			print(error.localizedDescription)
+		switch selectedFilterOption {
+			case .none:
+				request.predicate = NSPredicate(value: true)
+			case .byTags(let tags):
+				let tagNames = tags.map { $0.name }
+				request.predicate = NSPredicate(format: "ANY tags.name IN %@", tagNames)
+			case .byPriceRange(let minPrice, let maxPrice):
+				request.predicate = NSPredicate(format: "amount >= %@ AND amount <= %@", NSNumber(value: minPrice), NSNumber(value: maxPrice))
+			case .byTitle(let title):
+				request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
+			case .byDate(let startDate, let endDate):
+				request.predicate = NSPredicate(format: "dateCreated >= %@ AND dateCreated <= %@", startDate as NSDate, endDate as NSDate)
 		}
-	}
-	
-	private func filterByTitle() {
-		let request = Expense.fetchRequest()
-		request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
-		
-		do {
-			filteredExpenses = try context.fetch(request)
-		} catch {
-			print(error.localizedDescription)
-		}
-	}
-	
-	private func filterByDate() {
-		let request = Expense.fetchRequest()
-		request.predicate = NSPredicate(format: "dateCreated >= %@ AND dateCreated <= %@", startDate as NSDate, endDate as NSDate)
 		
 		do {
 			filteredExpenses = try context.fetch(request)
