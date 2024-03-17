@@ -12,12 +12,18 @@ struct BudgetDetailScreen: View {
 	@FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
 	@State private var title: String = ""
 	@State private var amount: Double?
+	@State private var quantity: Int?
 	@State private var selectedTags: Set<Tag> = []
 	
 	let budget: Budget
 	
 	private var isFormValid: Bool {
-		!title.isEmptyOrWhitespace && amount != nil && Double(amount!) > 0 && !selectedTags.isEmpty
+		!title.isEmptyOrWhitespace && 
+		amount != nil &&
+		Double(amount!) > 0 &&
+		!selectedTags.isEmpty &&
+		quantity != nil &&
+		Int(quantity!) > 0
 	}
 	
 	private var total: Double {
@@ -43,6 +49,9 @@ struct BudgetDetailScreen: View {
 				
 				TextField("Amount", value: $amount, format: .number)
 					.keyboardType(.numberPad)
+				
+				TextField("Quantity", value: $quantity, format: .number)
+				
 				
 				TagsView(selectedTags: $selectedTags)
 				
@@ -94,6 +103,7 @@ struct BudgetDetailScreen: View {
 		let expense = Expense(context: context)
 		expense.title = title
 		expense.amount = amount ?? 0.0
+		expense.quantity = Int16(quantity ?? 0)
 		expense.dateCreated = Date()
 		expense.tags = NSSet(array: Array(selectedTags))
 		
@@ -102,6 +112,7 @@ struct BudgetDetailScreen: View {
 		do {
 			try context.save()
 			title = ""
+			quantity = nil
 			amount = nil
 		} catch {
 			print(error.localizedDescription)

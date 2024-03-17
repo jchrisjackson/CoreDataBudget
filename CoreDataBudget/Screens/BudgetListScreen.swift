@@ -10,17 +10,42 @@ import SwiftUI
 struct BudgetListScreen: View {
 	@FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
 	@State private var isPresented: Bool = false
+	@State private var isFilteredPresented: Bool = false
+	
+	private var totalBudget: Double {
+		budgets.reduce(0) { limit, budget in
+			budget.limit + limit
+		}
+	}
 	
 	var body: some View {
 		VStack {
-			List(budgets) { budget in
-				NavigationLink {
-					BudgetDetailScreen(budget: budget)
-				} label: {
-					BudgetCellView(budget: budget)
+			if budgets.isEmpty {
+				ContentUnavailableView("No budgets available", systemImage: "list.clipboard")
+			} else {
+				List {
+					HStack {
+						Text("Total Budget")
+						Spacer()
+						Text(totalBudget, format: .currency(code: Locale.currencyCode))
+					}
+					.font(.headline)
+					
+					ForEach(budgets) { budget in
+						NavigationLink {
+							BudgetDetailScreen(budget: budget)
+						} label: {
+							BudgetCellView(budget: budget)
+						}
+					}
 				}
 			}
 		}
+		.overlay(alignment: .bottom) {
+			Button("Filter") {
+				isFilteredPresented = true
+			}
+			.buttonStyle(.borderedProminent)
 		.navigationTitle("Budget App")
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
@@ -31,6 +56,12 @@ struct BudgetListScreen: View {
 		}
 		.sheet(isPresented: $isPresented) {
 			AddBudgetScreen()
+		}
+		.sheet(isPresented: $isFilteredPresented) {
+			NavigationStack {
+				FilterScreen()
+			}
+		}
 		}
 	}
 }

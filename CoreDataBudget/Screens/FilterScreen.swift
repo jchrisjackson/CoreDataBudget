@@ -181,7 +181,7 @@ struct FilterScreen: View {
 	}
 	
 	private func performFilter() {
-		guard let selectedFilterOption else { return }
+		guard let selectedFilterOption = selectedFilterOption else { return }
 		
 		let request = Expense.fetchRequest()
 		
