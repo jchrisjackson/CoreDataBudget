@@ -52,7 +52,6 @@ struct BudgetDetailScreen: View {
 				
 				TextField("Quantity", value: $quantity, format: .number)
 				
-				
 				TagsView(selectedTags: $selectedTags)
 				
 				Button {

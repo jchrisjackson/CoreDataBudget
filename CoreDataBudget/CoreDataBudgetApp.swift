@@ -34,8 +34,8 @@ struct CoreDataBudgetApp: App {
 							}
 						}
 					}
-					.environment(\.managedObjectContext, provider.context)
 			}
+			.environment(\.managedObjectContext, provider.context)
 		}
 	}
 }
