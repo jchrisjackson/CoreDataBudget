@@ -11,19 +11,27 @@ struct EditExpenseScreen: View {
 	@Environment(\.managedObjectContext) private var context
 	@Environment(\.dismiss) private var dismiss
 	
-	@State private var expenseTitle: String = ""
-	@State private var expenseAmount: Double?
-	@State private var expenseQuantity: Int = 0
-	@State private var expenseSelectedTags: Set<Tag> = []
+	@ObservedObject var expense: Expense
 	
-	let expense : Expense
+//	@State private var expenseTitle: String = ""
+//	@State private var expenseAmount: Double?
+//	@State private var expenseQuantity: Int = 0
+//	@State private var expenseSelectedTags: Set<Tag> = []
 	
 	var body: some View {
 		Form {
-			TextField("Title", text: $expenseTitle)
-			TextField("Amount", value: $expenseAmount, format: .number)
-			TextField("Quantity", value: $expenseQuantity, format: .number)
-			TagsView(selectedTags: $expenseSelectedTags)
+			TextField("Title", text: Binding(get: {
+				expense.title ?? ""
+			}, set: { newValue in
+				expense.title = newValue
+			}))
+			TextField("Amount", value: $expense.amount, format: .number)
+			TextField("Quantity", value: $expense.quantity, format: .number)
+			TagsView(selectedTags: Binding(get: {
+				Set(expense.tags?.compactMap { $0 as? Tag } ?? [])
+			}, set: { newValue in
+				expense.tags = NSSet(array: Array(newValue))
+			}))
 		}
 		.navigationTitle(expense.title ?? "")
 		.toolbar {
@@ -34,21 +42,21 @@ struct EditExpenseScreen: View {
 			}
 		}
 		.onAppear {
-			expenseTitle = expense.title ?? ""
-			expenseAmount = expense.amount
-			expenseQuantity = Int(expense.quantity)
-			
-			if let tags = expense.tags {
-				expenseSelectedTags = Set(tags.compactMap { $0 as? Tag })
-			}
+//			expenseTitle = expense.title ?? ""
+//			expenseAmount = expense.amount
+//			expenseQuantity = Int(expense.quantity)
+//			
+//			if let tags = expense.tags {
+//				expenseSelectedTags = Set(tags.compactMap { $0 as? Tag })
+//			}
 		}
 	}
 	
 	private func updateExpense() {
-		expense.title = expenseTitle
-		expense.amount = expenseAmount ?? 0.0
-		expense.quantity = Int16(expenseQuantity)
-		expense.tags = NSSet(array: Array(expenseSelectedTags))
+//		expense.title = expenseTitle
+//		expense.amount = expenseAmount ?? 0.0
+//		expense.quantity = Int16(expenseQuantity)
+//		expense.tags = NSSet(array: Array(expenseSelectedTags))
 		
 		do {
 			try context.save()
