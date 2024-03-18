@@ -14,7 +14,7 @@ struct ExpenseCellView: View {
 		VStack(alignment: .leading) {
 			HStack {
 				Text(expense.title ?? "")
-				Text("\(expense.quantity)")
+				Text("(\(expense.quantity))")
 				Spacer()
 				Text(expense.total, format: .currency(code: Locale.currencyCode))
 				
