@@ -18,6 +18,7 @@
 		774D5F422B880B9D00D4CAE0 /* AddBudgetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */; };
 		774D5F452B880D7900D4CAE0 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F442B880D7900D4CAE0 /* String+Ext.swift */; };
 		774D5F472B8965D900D4CAE0 /* Budget+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */; };
+		775599A92BA8D1BE00EE931F /* EditExpenseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775599A82BA8D1BE00EE931F /* EditExpenseScreen.swift */; };
 		7757C5562BA8921900BBBB1F /* MappingModel-V1-to-V2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7757C5552BA8921900BBBB1F /* MappingModel-V1-to-V2.xcmappingmodel */; };
 		7757C5592BA8932500BBBB1F /* MigrationPolicy_V1_to_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757C5582BA8932500BBBB1F /* MigrationPolicy_V1_to_V2.swift */; };
 		77596C932B9BCCC900CC4284 /* TagsSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77596C922B9BCCC900CC4284 /* TagsSeeder.swift */; };
@@ -40,6 +41,7 @@
 		774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetScreen.swift; sourceTree = "<group>"; };
 		774D5F442B880D7900D4CAE0 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		774D5F462B8965D900D4CAE0 /* Budget+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+Ext.swift"; sourceTree = "<group>"; };
+		775599A82BA8D1BE00EE931F /* EditExpenseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpenseScreen.swift; sourceTree = "<group>"; };
 		7757C5542BA890E200BBBB1F /* BudgetModel V2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BudgetModel V2.xcdatamodel"; sourceTree = "<group>"; };
 		7757C5552BA8921900BBBB1F /* MappingModel-V1-to-V2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "MappingModel-V1-to-V2.xcmappingmodel"; sourceTree = "<group>"; };
 		7757C5582BA8932500BBBB1F /* MigrationPolicy_V1_to_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1_to_V2.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				774D5F412B880B9D00D4CAE0 /* AddBudgetScreen.swift */,
 				77D4CEB52B97B9C90077189D /* BudgetDetailScreen.swift */,
 				77596C962BA2527400CC4284 /* FilterScreen.swift */,
+				775599A82BA8D1BE00EE931F /* EditExpenseScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				774D5F422B880B9D00D4CAE0 /* AddBudgetScreen.swift in Sources */,
+				775599A92BA8D1BE00EE931F /* EditExpenseScreen.swift in Sources */,
 				77D4CEB62B97B9C90077189D /* BudgetDetailScreen.swift in Sources */,
 				7757C5592BA8932500BBBB1F /* MigrationPolicy_V1_to_V2.swift in Sources */,
 				77116EFB2B990203003996A1 /* Locale+Ext.swift in Sources */,

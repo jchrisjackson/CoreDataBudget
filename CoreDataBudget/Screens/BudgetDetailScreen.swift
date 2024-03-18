@@ -14,6 +14,7 @@ struct BudgetDetailScreen: View {
 	@State private var amount: Double?
 	@State private var quantity: Int?
 	@State private var selectedTags: Set<Tag> = []
+	@State private var expenseToEdit: Expense?
 	
 	let budget: Budget
 	
@@ -68,6 +69,9 @@ struct BudgetDetailScreen: View {
 				List {
 					ForEach(expenses) { expense in
 						ExpenseCellView(expense: expense)
+							.onLongPressGesture {
+								expenseToEdit = expense
+							}
 					}
 					.onDelete(perform: deleteExpense)
 					
@@ -90,6 +94,11 @@ struct BudgetDetailScreen: View {
 			}
 		}
 		.navigationTitle(budget.title ?? "")
+		.sheet(item: $expenseToEdit) { expenseToEdit in
+			NavigationStack {
+				EditExpenseScreen(expense: expenseToEdit)
+			}
+		}
 	}
 	
 	init(budget: Budget) {

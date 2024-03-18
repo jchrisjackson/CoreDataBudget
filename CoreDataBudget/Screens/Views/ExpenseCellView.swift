@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExpenseCellView: View {
-	let expense: Expense
+	@ObservedObject var expense: Expense
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -17,8 +17,8 @@ struct ExpenseCellView: View {
 				Text("(\(expense.quantity))")
 				Spacer()
 				Text(expense.total, format: .currency(code: Locale.currencyCode))
-				
 			}
+			.contentShape(Rectangle())
 			
 			ScrollView(.horizontal) {
 				HStack {
